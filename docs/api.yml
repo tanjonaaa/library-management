@@ -107,7 +107,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Author'
+                $ref: '#/components/schemas/CrupdateBook'
       responses:
         200:
           description: The list of created or updated authors
@@ -137,6 +137,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
+  
 components:
   schemas:
     Book:
@@ -174,20 +175,12 @@ components:
         - M
         - F
     CrupdateBook:
-      type: object
-      properties:
-        id:
-          type: string
-        bookName:
-          type: string
-        pageNumbers:
-          type: integer
-        topic:
-          type: string
-          enum:
-            - ROMANCE
-            - COMEDY
-            - OTHER
-        releaseDate:
-          type: string
-          format: date
+      allOf:
+        - $ref: '#/components/schemas/Book'
+        - type: object
+          required:
+            - id
+            - bookName
+            - pageNumbers
+            - topic
+            - releaseDate
