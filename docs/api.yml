@@ -62,7 +62,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Book'
+                $ref: '#/components/schemas/CrupdateBook'
       responses:
         200:
           description: The list of created or updated books
@@ -137,7 +137,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
-  
+  #TODO Fix it
+  /books/{bId}/authors/{aId}:
+    put:
+      tags:
+        - Books
+      parameters:
+        - name: bId
+          in: path
+          description: |
+            Id of the book
+          schema:
+            type: string
+          required: true
+        - name: aId
+          in: path
+          description: |
+            Id of the author
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Successfully updated the author of the book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
 components:
   schemas:
     Book:
@@ -184,3 +210,10 @@ components:
             - pageNumbers
             - topic
             - releaseDate
+    UpdateBookAuthor:
+      type: object
+      properties:
+        bookId:
+          type: string
+        authorId:
+          type: string
