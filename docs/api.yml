@@ -156,6 +156,7 @@ paths:
                 $ref: '#/components/schemas/Author'
   #TODO Fix it
   /books/{bId}/authors/{aId}:
+    description: Crupdate the author of a book
     put:
       tags:
         - Books
@@ -181,6 +182,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book'
+  /authors/page/{page}/size/{pageSize}:
+    description: Get paginated list of authors
+    get:
+      tags:
+        - Authors
+      parameters:
+        - in: path
+          name: page
+          schema:
+            type: integer
+            default: 1
+          required: true
+        - in: path
+          name: pageSize
+          schema:
+            type: integer
+            default: 50
+          required: true
+      responses:
+        200:
+          description: List of paginated Authors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author'
 components:
   schemas:
     Book:
