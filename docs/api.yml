@@ -134,6 +134,22 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
+    delete:
+      summary: Delete one or multiple authors
+      operationId: deleteAuthors
+      tags:
+        - Authors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        200:
+          description: Successfully deleted
+
   /authors/{aId}:
     delete:
       summary: Delete an author
