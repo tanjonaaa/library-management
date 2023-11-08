@@ -265,6 +265,45 @@ components:
           type: string
         authorId:
           type: string
+    ResponseContent:
+      type: object
+      properties:
+        status:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+        body:
+          type: object
+    OkResponse:
+      allOf:
+        - $ref: '#/components/schemas/ResponseContent'
+      example:
+        status:
+          code: 200
+          message: Ok
+        body:
+          $ref: '#/components/schemas/Book'
+    InternalServerErrorResponse:
+      allOf:
+        - $ref: '#/components/schemas/ResponseContent'
+      example:
+        status: 500
+        message: Internal server error
+    BadRequestResponse:
+      allOf:
+        - $ref: '#/components/schemas/ResponseContent'
+      example:
+        status: 400
+        message: Bad request
+    ForbiddenResponse:
+      allOf:
+        - $ref: '#/components/schemas/ResponseContent'
+      example:
+        status: 403
+        message: Forbidden
   parameters:
     queryPagination:
       name: page
@@ -284,3 +323,35 @@ components:
         type: integer
         default: 10
       required: true
+  responses:
+    Response:
+      description: Response returned after a request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseContent'
+    Ok:
+      description: Successfully completed operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OkResponse'
+    InternalServerError:
+      description: A error occurred during operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalServerErrorResponse'
+    BadRequest:
+      description: Operation can't be completed due to bad request from client
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequestResponse'
+    Forbidden:
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ForbiddenResponse'
+
