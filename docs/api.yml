@@ -2,7 +2,7 @@
 openapi: 3.0.3
 info:
   title: Library API
-  version: 1.1.0
+  version: 1.2.0
   description: STD22001
 servers:
   - url: https://library.com
@@ -42,15 +42,7 @@ paths:
             type: string
             format: date
           required: false
-        - in: query
-          name: page
-          description: |
-            The page number.
-            Used when paginating the books
-          schema:
-            type: integer
-            default: 1
-          required: false
+        - $ref: '#/components/parameters/queryPagination'
         - in: query
           name: pageSize
           description: |
@@ -204,12 +196,7 @@ paths:
       tags:
         - Authors
       parameters:
-        - in: path
-          name: page
-          schema:
-            type: integer
-            default: 1
-          required: true
+        - $ref: '#/components/parameters/pathPagination'
         - in: path
           name: pageSize
           schema:
@@ -278,3 +265,22 @@ components:
           type: string
         authorId:
           type: string
+  parameters:
+    queryPagination:
+      name: page
+      in: query
+      description: |
+        Query parameter referencing page number
+      schema:
+        type: integer
+        default: 10
+      required: false
+    pathPagination:
+      name: page
+      in: path
+      description: |
+        Path parameter referencing page number
+      schema:
+        type: integer
+        default: 10
+      required: true
