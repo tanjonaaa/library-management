@@ -212,28 +212,56 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
+  /books/import:
+    description: Import books from JSON and Excel files
+    post:
+      tags:
+        - Books
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ImportedBooks'
+      responses:
+        200:
+          description: Return the inserted books with their IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+  /authors/import:
+    description: Import authors from JSON and Excel files
+    post:
+      tags:
+        - Authors
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Author'
+      responses:
+        200:
+          description: Return the inserted authors with their IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author'
 components:
   schemas:
     Book:
-      type: object
+      allOf:
+        - $ref: '#/components/schemas/ParentBooks'
       properties:
         id:
           type: string
-        bookName:
-          type: string
-        author:
-          $ref: '#/components/schemas/Author'
-        pageNumbers:
-          type: integer
-        topic:
-          type: string
-          enum:
-            - ROMANCE
-            - COMEDY
-            - OTHER
-        releaseDate:
-          type: string
-          format: date
     Author:
       type: object
       properties:
@@ -287,7 +315,7 @@ components:
           code: 200
           message: Ok
         body:
-          -
+          - $ref: '#/components/schemas/Book'
     InternalServerErrorResponse:
       allOf:
         - $ref: '#/components/schemas/ResponseContent'
@@ -306,6 +334,30 @@ components:
       example:
         status: 403
         message: Forbidden
+    ParentBooks:
+      type: object
+      properties:
+        bookName:
+          type: string
+        author:
+          $ref: '#/components/schemas/Author'
+        pageNumbers:
+          type: integer
+        topic:
+          type: string
+          enum:
+            - ROMANCE
+            - COMEDY
+            - OTHER
+        releaseDate:
+          type: string
+          format: date
+    ImportedBooks:
+      allOf:
+        - $ref: '#/components/schemas/ParentBooks'
+      properties:
+        authorId:
+          type: string
   parameters:
     queryPagination:
       name: page
