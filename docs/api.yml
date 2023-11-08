@@ -276,7 +276,9 @@ components:
             message:
               type: string
         body:
-          type: object
+          type: array
+          items:
+            type: object
     OkResponse:
       allOf:
         - $ref: '#/components/schemas/ResponseContent'
@@ -285,7 +287,7 @@ components:
           code: 200
           message: Ok
         body:
-          $ref: '#/components/schemas/Book'
+          -
     InternalServerErrorResponse:
       allOf:
         - $ref: '#/components/schemas/ResponseContent'
@@ -324,12 +326,6 @@ components:
         default: 10
       required: true
   responses:
-    Response:
-      description: Response returned after a request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ResponseContent'
     Ok:
       description: Successfully completed operation
       content:
