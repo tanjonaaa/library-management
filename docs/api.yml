@@ -219,11 +219,12 @@ paths:
         - Books
       requestBody:
         content:
-          multipart/form-data:
+          application/ms-excel:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/ImportedBooks'
+              $ref: '#/components/schemas/ImportedBooks'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportedBooks'
       responses:
         200:
           description: Return the inserted books with their IDs
@@ -240,11 +241,12 @@ paths:
         - Authors
       requestBody:
         content:
-          multipart/form-data:
+          application/ms-excel:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Author'
+              $ref: '#/components/schemas/ImportedAuthors'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportedAuthors'
       responses:
         200:
           description: Return the inserted authors with their IDs
@@ -358,6 +360,16 @@ components:
       properties:
         authorId:
           type: string
+    ImportedAuthors:
+      type: object
+      properties:
+        authorName:
+          type: string
+        sex:
+          type: string
+          enum:
+            - M
+            - F
   parameters:
     queryPagination:
       name: page
