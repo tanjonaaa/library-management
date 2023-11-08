@@ -1,4 +1,4 @@
-#https://petstore.swagger.io/?url=https://raw.githubusercontent.com/tanjonaaa/library-management/oas-td2-std22070/docs/api.yml
+#https://petstore.swagger.io/?url=https://raw.githubusercontent.com/tanjonaaa/library-management/oas-td3-std2200/docs/api.yml
 openapi: 3.0.3
 info:
   title: Library API
