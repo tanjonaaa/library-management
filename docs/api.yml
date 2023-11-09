@@ -60,32 +60,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
-
-  /books/borrowed:
+                  
+  /books/{status}:
     get:
       tags:
         - Books
-      summary: Get the list of borrowed books
-      operationId: getBorrowedBooks
+      summary: Get the list of books based on status
+      operationId: getBooksByStatus
+      parameters:
+        - $ref: '#/components/parameters/BookStatus'
       responses:
         200:
-          description: The list of borrowed books
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Book'
-
-  /books/available:
-    get:
-      tags:
-        - Books
-      summary: Get the list of available books
-      operationId: getAvailableBooks
-      responses:
-        200:
-          description: The list of available books
+          description: The list of books based on status
           content:
             application/json:
               schema:
@@ -353,11 +339,6 @@ components:
       properties:
         id:
           type: string
-        status:
-          type: string
-          enum:
-            - Available
-            - Borrowed
     CrupdateBook:
       allOf:
         - $ref: '#/components/schemas/Book'
@@ -473,6 +454,18 @@ components:
             - M
             - F
   parameters:
+
+    BookStatus:
+      name: status
+      in: path
+      description: Status of the books (borrowed or available)
+      required: true
+      schema:
+        type: string
+        enum:
+          - borrowed
+          - available
+
     queryPagination:
       name: page
       in: query
