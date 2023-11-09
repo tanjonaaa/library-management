@@ -76,6 +76,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Book'
 
+
   /books/available:
     get:
       tags:
