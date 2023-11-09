@@ -60,7 +60,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
-                  
+
   /books/{status}:
     get:
       tags:
@@ -339,6 +339,10 @@ components:
       properties:
         id:
           type: string
+        status: 
+          type: boolean
+          default: true
+          
     CrupdateBook:
       allOf:
         - $ref: '#/components/schemas/Book'
