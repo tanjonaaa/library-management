@@ -6,8 +6,8 @@ info:
 servers:
   - url: https://library.com
 tags:
-  - Books
-  - Authors
+  - name: Books
+  - name: Authors
 paths:
   /books:
     get:
@@ -80,6 +80,56 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+  #TODO Fix it
+  /books/{bId}/authors/{aId}:
+    description: Crupdate the author of a book
+    put:
+      tags:
+        - Books
+      parameters:
+        - name: bId
+          in: path
+          description: |
+            Id of the book
+          schema:
+            type: string
+          required: true
+        - name: aId
+          in: path
+          description: |
+            Id of the author
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Successfully updated the author of the book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+  /books/import:
+    description: Import books from JSON and Excel files
+    post:
+      tags:
+        - Books
+      requestBody:
+        content:
+          application/ms-excel:
+            schema:
+              $ref: '#/components/schemas/ImportedBooks'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportedBooks'
+      responses:
+        200:
+          description: Return the inserted books with their IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
   /authors:
     get:
       summary: Get all authors
@@ -140,7 +190,6 @@ paths:
       responses:
         200:
           description: Successfully deleted
-
   /authors/{aId}:
     delete:
       summary: Delete an author
@@ -161,34 +210,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
-  #TODO Fix it
-  /books/{bId}/authors/{aId}:
-    description: Crupdate the author of a book
-    put:
-      tags:
-        - Books
-      parameters:
-        - name: bId
-          in: path
-          description: |
-            Id of the book
-          schema:
-            type: string
-          required: true
-        - name: aId
-          in: path
-          description: |
-            Id of the author
-          schema:
-            type: string
-          required: true
-      responses:
-        200:
-          description: Successfully updated the author of the book
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Book'
   /authors/page/{page}/size/{pageSize}:
     description: Get paginated list of authors
     get:
@@ -211,28 +232,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
-  /books/import:
-    description: Import books from JSON and Excel files
-    post:
-      tags:
-        - Books
-      requestBody:
-        content:
-          application/ms-excel:
-            schema:
-              $ref: '#/components/schemas/ImportedBooks'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ImportedBooks'
-      responses:
-        200:
-          description: Return the inserted books with their IDs
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Book'
   /authors/import:
     description: Import authors from JSON and Excel files
     post:
@@ -257,26 +256,35 @@ paths:
                   $ref: '#/components/schemas/Author'
 components:
   schemas:
+    Sex:
+      type: string
+      enum:
+        - M
+        - F
+    ParentBooks:
+      type: object
+      properties:
+        bookName:
+          type: string
+        author:
+          $ref: '#/components/schemas/Author'
+        pageNumbers:
+          type: integer
+        topic:
+          type: string
+          enum:
+            - ROMANCE
+            - COMEDY
+            - OTHER
+        releaseDate:
+          type: string
+          format: date
     Book:
       allOf:
         - $ref: '#/components/schemas/ParentBooks'
       properties:
         id:
           type: string
-    Author:
-      type: object
-      properties:
-        id:
-          type: string
-        authorName:
-          type: string
-        sex:
-          $ref: '#/components/schemas/Sex'
-    Sex:
-      type: string
-      enum:
-        - M
-        - F
     CrupdateBook:
       allOf:
         - $ref: '#/components/schemas/Book'
@@ -287,6 +295,21 @@ components:
             - pageNumbers
             - topic
             - releaseDate
+    ImportedBooks:
+      allOf:
+        - $ref: '#/components/schemas/ParentBooks'
+      properties:
+        authorId:
+          type: string
+    Author:
+      type: object
+      properties:
+        id:
+          type: string
+        authorName:
+          type: string
+        sex:
+          $ref: '#/components/schemas/Sex'
     UpdateBookAuthor:
       type: object
       properties:
@@ -335,30 +358,6 @@ components:
       example:
         status: 403
         message: Forbidden
-    ParentBooks:
-      type: object
-      properties:
-        bookName:
-          type: string
-        author:
-          $ref: '#/components/schemas/Author'
-        pageNumbers:
-          type: integer
-        topic:
-          type: string
-          enum:
-            - ROMANCE
-            - COMEDY
-            - OTHER
-        releaseDate:
-          type: string
-          format: date
-    ImportedBooks:
-      allOf:
-        - $ref: '#/components/schemas/ParentBooks'
-      properties:
-        authorId:
-          type: string
     ImportedAuthors:
       type: object
       properties:
