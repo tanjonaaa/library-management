@@ -60,6 +60,39 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+
+  /books/borrowed:
+    get:
+      tags:
+        - Books
+      summary: Get the list of borrowed books
+      operationId: getBorrowedBooks
+      responses:
+        200:
+          description: The list of borrowed books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+
+  /books/available:
+    get:
+      tags:
+        - Books
+      summary: Get the list of available books
+      operationId: getAvailableBooks
+      responses:
+        200:
+          description: The list of available books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+                  
     put:
       tags:
         - Books
@@ -81,6 +114,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+
   #TODO Fix it
   /books/{bId}/authors/{aId}:
     description: Crupdate the author of a book
@@ -319,6 +353,11 @@ components:
       properties:
         id:
           type: string
+        status:
+          type: string
+          enum:
+            - Available
+            - Borrowed
     CrupdateBook:
       allOf:
         - $ref: '#/components/schemas/Book'
