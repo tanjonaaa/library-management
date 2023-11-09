@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Library API
-  version: 1.2.0
+  version: 1.3.0
   description: STD22001
 servers:
   - url: https://library.com
@@ -259,7 +259,7 @@ paths:
   /visitors/{vId}/borrow/{bId}:
     put:
       summary: Visitor borrows a book
-      operationId: borroBook
+      operationId: borrowBook
       tags:
         - Visitors
       parameters:
@@ -272,7 +272,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book'
-
+  /visitors/{vId}/return/{bId}:
+    put:
+      summary: Visitor returns a book
+      operationId: returnBook
+      tags:
+        - Visitors
+      parameters:
+        - $ref: '#/components/parameters/VisitorId'
+        - $ref: '#/components/parameters/BookId'
+      responses:
+        200:
+          description: Book successfully returned by the visitor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
 components:
   schemas:
     Sex:
