@@ -90,6 +90,8 @@ paths:
         - Books
       summary: Create or update a list of books
       operationId: crupdateBooks
+      parameters:
+        - $ref: '#/components/parameters/BookStatus'
       requestBody:
         content:
           application/json:
@@ -208,13 +210,14 @@ paths:
       operationId: deleteAuthors
       tags:
         - Authors
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: string
+      parameters:
+        - in: query
+          name: authorIds
+          description: IDs of the authors to be deleted
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         200:
           description: Successfully deleted
