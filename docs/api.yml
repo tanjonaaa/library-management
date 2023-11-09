@@ -60,6 +60,38 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+  /books/borrowed:
+    get:
+      tags:
+        - Books
+      summary: Get the list of borrowed books
+      operationId: getBorrowedBooks
+      responses:
+        200:
+          description: The list of borrowed books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+
+  /books/available:
+    get:
+      tags:
+        - Books
+      summary: Get the list of available books
+      operationId: getAvailableBooks
+      responses:
+        200:
+          description: The list of available books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+
     put:
       tags:
         - Books
@@ -131,6 +163,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+
   /authors:
     get:
       summary: Get all authors
@@ -259,7 +292,7 @@ paths:
   /visitors/{vId}/borrow/{bId}:
     put:
       summary: Visitor borrows a book
-      operationId: borroBook
+      operationId: borrowBook
       tags:
         - Visitors
       parameters:
@@ -301,9 +334,15 @@ components:
     Book:
       allOf:
         - $ref: '#/components/schemas/ParentBooks'
+        - type: object
       properties:
         id:
           type: string
+        status:
+          type: string
+          enum:
+            - Available
+            - borrowed
     CrupdateBook:
       allOf:
         - $ref: '#/components/schemas/Book'
