@@ -5,6 +5,10 @@ info:
   description: STD22001
 servers:
   - url: https://library.com
+
+security:
+  - BearerAuth: [ ]
+
 tags:
   - name: Books
   - name: Authors
@@ -17,6 +21,7 @@ paths:
       summary: Get all books
       description: The returned books are ordered by updated datetime.
       operationId: getBooks
+      security: []
       parameters:
         - in: query
           name: bookName
@@ -67,6 +72,7 @@ paths:
         - Books
       summary: Get the list of books based on status
       operationId: getBooksByStatus
+      security: []
       parameters:
         - $ref: '#/components/parameters/BookStatus'
       responses:
@@ -155,6 +161,7 @@ paths:
     get:
       summary: Get all authors
       operationId: getAuthors
+      security: []
       tags:
         - Authors
       parameters:
@@ -340,6 +347,11 @@ paths:
                     - $ref: '#/components/schemas/Borrowing'
                     - $ref: '#/components/schemas/Return'
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
   schemas:
     Sex:
       type: string
