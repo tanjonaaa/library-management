@@ -60,6 +60,25 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+
+  /books/{status}:
+    get:
+      tags:
+        - Books
+      summary: Get the list of books based on status
+      operationId: getBooksByStatus
+      parameters:
+        - $ref: '#/components/parameters/BookStatus'
+      responses:
+        200:
+          description: The list of books based on status
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+                  
     put:
       tags:
         - Books
@@ -81,6 +100,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+
   #TODO Fix it
   /books/{bId}/authors/{aId}:
     description: Crupdate the author of a book
@@ -350,6 +370,10 @@ components:
       properties:
         id:
           type: string
+        status: 
+          type: boolean
+          default: true
+          
     CrupdateBook:
       allOf:
         - $ref: '#/components/schemas/Book'
@@ -469,6 +493,18 @@ components:
             - M
             - F
   parameters:
+
+    BookStatus:
+      name: status
+      in: path
+      description: Status of the books (borrowed or available)
+      required: true
+      schema:
+        type: string
+        enum:
+          - borrowed
+          - available
+
     queryPagination:
       name: page
       in: query
