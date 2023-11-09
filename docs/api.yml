@@ -288,6 +288,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book'
+  /visitors/{vId}/activity:
+    get:
+      summary: Get the Borrowing and Returns of a visitor in a interval of time
+      operationId: getVisitorActivity
+      tags:
+        - Visitors
+      parameters:
+        - $ref: '#/components/parameters/VisitorId'
+        - in: query
+          name: startDatetime
+          schema:
+            type: string
+            format: date-time
+          required: true
+        - in: query
+          name: endDateTime
+          schema:
+            type: string
+            format: date-time
+          required: true
+      responses:
+        200:
+          description: Successfully got the activity history of the visitor
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  anyOf:
+                    - $ref: '#/components/schemas/Borrowing'
+                    - $ref: '#/components/schemas/Return'
 components:
   schemas:
     Sex:
@@ -372,7 +403,11 @@ components:
           type: string
         createdAt:
           type: string
-          format: timestamp
+          format: date-time
+        books:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
 
     Borrowing:
       allOf:
